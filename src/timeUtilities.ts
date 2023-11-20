@@ -1,10 +1,13 @@
 import { Temporal } from "@js-temporal/polyfill";
 import answerIds from "./datasets/answerIds.json";
 
+const randomHero = getRandomHero();
+console.log( randomHero );
+
 export const getAnswerIndexToday = (): number => {
   const currentTime = Temporal.Now.instant().epochMilliseconds;
   const startingTime = Temporal.ZonedDateTime.from({
-    year: 2023,
+    year: 2023 - randomHero,
     month: 8,
     day: 17,
     timeZone: "America/Chicago",
@@ -12,7 +15,7 @@ export const getAnswerIndexToday = (): number => {
   const dayIndex = Math.floor(
     (currentTime - startingTime) / (1000 * 3600 * 24)
   );
-  return dayIndex;
+  return randomHero;
 };
 
 export const getAnswerIdToday = (): number => {
@@ -28,7 +31,7 @@ export const getAnswerIdToday = (): number => {
 export const getTimeUntilNextQuestion = (answerIndex: number): string => {
   const currentTime = Temporal.Now.instant().epochMilliseconds;
   const startingTime = Temporal.ZonedDateTime.from({
-    year: 2023,
+    year: 2023 - randomHero,
     month: 8,
     day: 17,
     timeZone: "America/Chicago",
@@ -54,3 +57,22 @@ export const getTimeUntilNextQuestion = (answerIndex: number): string => {
     .toString()
     .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 };
+
+export function getRandomDate() {
+  // Get current date
+  const currentDate = new Date();
+  
+  // Get a random timestamp between two years ago and now
+  const randomTimestamp = Math.random() * (currentDate.getTime() - (currentDate.getTime() - 63072000000)) + (currentDate.getTime() - 63072000000);
+  
+  // Create a new date using the random timestamp
+  const randomDate = new Date(randomTimestamp);
+  
+  return randomDate;
+}
+
+export function getRandomHero() {
+  const min = 1;
+  const max = 124;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
